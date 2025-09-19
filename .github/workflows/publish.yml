@@ -1,13 +1,9 @@
 name: 👷　CI
 on:
-  pull_request_target:
   push:
     branches:
       - master
-      - next
-      - next-major
-      - alpha
-      - beta
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -49,20 +45,9 @@ jobs:
       - name: ✅　Test
         run: pnpm run test
 
-      - name: 🔑　Generate Token
-        uses: wow-actions/use-app-token@v2
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+      - name: configure npm
+        run: |
+          npm config set //repositories.mrf.io/nexus/repository/npm-internal/:_authToken ${NPM_NEXUS_AUTH} ${{ secrets.NPM_NEXUS_AUTH }}
+          npm config set strict-ssl false
 
-      - name: 💡　Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ env.BOT_TOKEN }}
-          path-to-lcov: ./test/coverage/lcov.info
-
-      - name: 💡　Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./test/coverage/lcov.info
+      - run: npm publish
