@@ -200,7 +200,7 @@ export function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = () => {
-      img.decode().then(() => {
+      img.decode().finally(() => {
         requestAnimationFrame(() => resolve(img))
       })
     }
