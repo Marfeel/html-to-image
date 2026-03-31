@@ -102,3 +102,16 @@ export interface Options {
    */
   onImageErrorHandler?: OnErrorEventHandler
 }
+
+export interface SvgDataURLResult {
+  svgDataURL: string
+  width: number
+  height: number
+}
+
+export interface EncodeOptions {
+  format?: 'image/png' | 'image/jpeg'
+  quality?: number
+  backgroundColor?: string
+  skipAutoScale?: boolean
+}
