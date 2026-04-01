@@ -114,32 +114,60 @@ export function getPixelRatio() {
 }
 
 // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas#maximum_canvas_size
-const canvasDimensionLimit = 16384
+const CANVAS_DIMENSION_LIMIT = 16384
 
 export function checkCanvasDimensions(canvas: HTMLCanvasElement) {
   if (
-    canvas.width > canvasDimensionLimit ||
-    canvas.height > canvasDimensionLimit
+    canvas.width > CANVAS_DIMENSION_LIMIT ||
+    canvas.height > CANVAS_DIMENSION_LIMIT
   ) {
     if (
-      canvas.width > canvasDimensionLimit &&
-      canvas.height > canvasDimensionLimit
+      canvas.width > CANVAS_DIMENSION_LIMIT &&
+      canvas.height > CANVAS_DIMENSION_LIMIT
     ) {
       if (canvas.width > canvas.height) {
-        canvas.height *= canvasDimensionLimit / canvas.width
-        canvas.width = canvasDimensionLimit
+        canvas.height *= CANVAS_DIMENSION_LIMIT / canvas.width
+        canvas.width = CANVAS_DIMENSION_LIMIT
       } else {
-        canvas.width *= canvasDimensionLimit / canvas.height
-        canvas.height = canvasDimensionLimit
+        canvas.width *= CANVAS_DIMENSION_LIMIT / canvas.height
+        canvas.height = CANVAS_DIMENSION_LIMIT
       }
-    } else if (canvas.width > canvasDimensionLimit) {
-      canvas.height *= canvasDimensionLimit / canvas.width
-      canvas.width = canvasDimensionLimit
+    } else if (canvas.width > CANVAS_DIMENSION_LIMIT) {
+      canvas.height *= CANVAS_DIMENSION_LIMIT / canvas.width
+      canvas.width = CANVAS_DIMENSION_LIMIT
     } else {
-      canvas.width *= canvasDimensionLimit / canvas.height
-      canvas.height = canvasDimensionLimit
+      canvas.width *= CANVAS_DIMENSION_LIMIT / canvas.height
+      canvas.height = CANVAS_DIMENSION_LIMIT
     }
   }
+}
+
+export function checkDimensions(
+  width: number,
+  height: number,
+): { width: number; height: number } {
+  let w = width
+  let h = height
+
+  if (w > CANVAS_DIMENSION_LIMIT || h > CANVAS_DIMENSION_LIMIT) {
+    if (w > CANVAS_DIMENSION_LIMIT && h > CANVAS_DIMENSION_LIMIT) {
+      if (w > h) {
+        h *= CANVAS_DIMENSION_LIMIT / w
+        w = CANVAS_DIMENSION_LIMIT
+      } else {
+        w *= CANVAS_DIMENSION_LIMIT / h
+        h = CANVAS_DIMENSION_LIMIT
+      }
+    } else if (w > CANVAS_DIMENSION_LIMIT) {
+      h *= CANVAS_DIMENSION_LIMIT / w
+      w = CANVAS_DIMENSION_LIMIT
+    } else {
+      w *= CANVAS_DIMENSION_LIMIT / h
+      h = CANVAS_DIMENSION_LIMIT
+    }
+  }
+
+  return { width: Math.round(w), height: Math.round(h) }
 }
 
 export function canvasToBlob(

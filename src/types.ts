@@ -92,3 +92,16 @@ export interface Options {
    */
   fetchRequestInit?: RequestInit
 }
+
+export interface SvgDataURLResult {
+  svgDataURL: string
+  width: number
+  height: number
+}
+
+export interface EncodeOptions {
+  format?: 'image/png' | 'image/jpeg'
+  quality?: number
+  backgroundColor?: string
+  skipAutoScale?: boolean
+}
